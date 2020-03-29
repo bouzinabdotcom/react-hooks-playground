@@ -1,4 +1,4 @@
-import React, { useReducer } from "react";
+import React, { useReducer, useMemo } from "react";
 import { Button } from "./Button";
 
 export default function UseReducer() {
@@ -18,14 +18,28 @@ export default function UseReducer() {
   }
   const [count, dispatch] = useReducer(reducer, 0);
 
-  return (
-    <div>
+  const MemoizedButtonInc = useMemo(
+    () => (
       <Button
         label="increment"
-        onClick={() => dispatch({ type: INCREMENT, payload: 3 })}
+        onClick={() => dispatch({ type: INCREMENT, payload: 1 })}
       />
-      <h1>{count}</h1>
+    ),
+    []
+  );
+
+  const MemoizedButtonDec = useMemo(
+    () => (
       <Button label="decrement" onClick={() => dispatch({ type: DECREMENT })} />
+    ),
+    []
+  );
+
+  return (
+    <div>
+      {MemoizedButtonInc}
+      <h1>{count}</h1>
+      {MemoizedButtonDec}
     </div>
   );
 }
